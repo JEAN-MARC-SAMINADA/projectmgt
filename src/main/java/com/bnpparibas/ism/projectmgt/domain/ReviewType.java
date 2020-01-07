@@ -21,7 +21,8 @@ public class ReviewType {
 
     //Un même type de revue peut designer plusieurs revues
     //Une revue ne peut avoir qu'un seul type
-    @OneToMany(mappedBy = "reviewType")
+//    @OneToMany(mappedBy = "reviewType")
+    @Transient
     private Set<Review> reviews;
 
 

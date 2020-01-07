@@ -22,7 +22,8 @@ public class Tag {
 
     //Un même Tag peut designer plusieurs documents
     //Un document ne peut avoir qu'un seul Tag
-    @OneToMany(mappedBy = "tag")
+//    @OneToMany(mappedBy = "tag")
+    @Transient
     private Set<Document> documents;
 
 

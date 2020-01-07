@@ -32,12 +32,16 @@ public class Project {
 
     //Un projet est constitué de plusieurs documents
     //Un document ne peut appartenir qu'un seul projet
-    @OneToMany(mappedBy = "project")
+    //@OneToMany(mappedBy = "project")
+    @OneToMany
+    @JoinColumn(name = "PROJECT_ID")
     private Set<Document> documents;
 
     //Un projet peut faire l'objet de plusieurs revues
     //Une revue ne concerne qu'un seul projet
-    @OneToMany(mappedBy = "project")
+    //@OneToMany(mappedBy = "project")
+    @OneToMany
+    @JoinColumn(name = "PROJECT_ID")
     private Set<Review> reviews;
 
 //Constructeurs
@@ -78,7 +82,6 @@ public class Project {
 
     public void setFollowup(Followup followup) { this.followup = followup; }
 
-
     public Set<Document> getDocuments() {
         return documents;
     }
@@ -94,7 +97,6 @@ public class Project {
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
-
 
 
 }

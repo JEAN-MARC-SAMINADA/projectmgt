@@ -1,0 +1,12 @@
+…or push an existing repository from the command line
+git remote add origin https://github.com/JEAN-MARC-SAMINADA/projectmgt.git
+git push -u origin master
+
+…or create a new repository on the command line
+https://github.com/JEAN-MARC-SAMINADA/projectmgt.git
+echo "# projectmgt" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/JEAN-MARC-SAMINADA/projectmgt.git
+git push -u origin master

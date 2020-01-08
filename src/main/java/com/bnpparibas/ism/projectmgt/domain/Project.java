@@ -1,6 +1,8 @@
 package com.bnpparibas.ism.projectmgt.domain;
-import javax.persistence.*;
-import java.util.Set;
+        import javax.persistence.*;
+        import java.util.List;
+        import java.util.Optional;
+        import java.util.Set;
 
 
 @Entity(name = "PROJECT")
@@ -98,5 +100,23 @@ public class Project {
         this.reviews = reviews;
     }
 
-
+    public boolean hasArtifact(String tag) {
+        if (getDocuments()!=null) {
+            Optional<Document> tagDocument = getDocuments().stream()
+                    .filter(d->tag.equals(d.getTag()))
+                    .findFirst();
+            if (tagDocument.isPresent()) {
+                return true;
+            }
+        }
+        if (getReviews()!=null) {
+            Optional<Review> tagReview = getReviews().stream()
+                    .filter(d -> tag.equals(d.getReviewType().getName()))
+                    .findFirst();
+            if (tagReview.isPresent()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

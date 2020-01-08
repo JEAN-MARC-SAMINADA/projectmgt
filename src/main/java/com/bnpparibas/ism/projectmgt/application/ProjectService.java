@@ -2,15 +2,16 @@ package com.bnpparibas.ism.projectmgt.application;
 import com.bnpparibas.ism.projectmgt.domain.Document;
 import com.bnpparibas.ism.projectmgt.domain.Project;
 import com.bnpparibas.ism.projectmgt.infrastructure.ProjectDAO;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.FollowUP;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.ProcessDTO;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.ProcessManagerDAO;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.ProcessType;
+import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Transactional
 @Service
@@ -40,10 +41,28 @@ public class ProjectService {
     }
 
 
-    public List<ProcessDTO>  callProcessMgt(){
-    List<ProcessDTO> processes = processManagerDAO.listProccessByMappedNameAndProcessTypeFollow("WaterFall", ProcessType.ARCHITECTURE.name(),FollowUP.STANDARD.name());
+    public List<ProcessDTO> callProcess( String name,
+                                  String ptype,
+                                  String pfollow,
+                                         Long projectId) {
+        Project project = projectDAO.getOne(projectId);
+        List<ProcessDTO> processes = processManagerDAO.listProccessByMappedNameAndProcessTypeFollow(project.getMethod(), ProcessType.ARCHITECTURE.name(),FollowUP.STANDARD.name());
+        if (processes!=null) {
+            areDone(project,processes);
+        }
         return processes;
+    }
 
+    private void areDone(Project project, List<ProcessDTO> processes) {
+        List<ArtifactDTO> artifacts = processes.stream()
+                .map(p-> p.getProcessActivityDTOList())
+                .flatMap(list->list.stream())
+                .map(pa->pa.getArtifactDTOList())
+                .flatMap(list->list.stream())
+                .collect(Collectors.toList());
+        artifacts.forEach(artifact->{
+            artifact.setDone(project.hasArtifact(artifact.getTag()));
+        });
     }
 }
 

@@ -38,15 +38,12 @@ public class ProjectRessource {
         return this.projectService.obtain(code);
     }
 
-    @Autowired
-    ProcessManagerDAO processManagerDAO;
-    @RequestMapping(method = RequestMethod.GET, path = {"/process/methods/{name}/ptype/{ptype}/pfollow/{pfollow}"})
+    @RequestMapping(method = RequestMethod.GET, path = {"/project/{projectId}/process/methods/{name}/ptype/{ptype}/pfollow/{pfollow}"})
     public List<ProcessDTO> callProcess(@PathVariable("name") String name,
                                         @PathVariable("ptype") String ptype,
-                                        @PathVariable("pfollow") String pfollow) {
-        List<ProcessDTO> processes = processManagerDAO.listProccessByMappedNameAndProcessTypeFollow(name,ptype,pfollow);
-
-        return processes;
+                                        @PathVariable("pfollow") String pfollow,
+                                        @PathVariable("projectId") Long projectId) {
+        return projectService.callProcess(name,ptype,pfollow,projectId);
     }
 }
 

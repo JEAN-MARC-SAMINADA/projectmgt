@@ -21,12 +21,8 @@ public class DocumentService {
         return document.getId();
     }
 
-    //Liste de documents
+    //Liste tous les documents
     public List<Document> listAll() {
         return this.documentDAO.findAll();
     }
-
-    //Liste des documents d'un projet
-    public List<Document> findDocumentsByProjectId (Long id) {return this.documentDAO.documentsByProjectId(id);}
-
 }

@@ -1,13 +1,7 @@
 package com.bnpparibas.ism.projectmgt.exposition;
-import com.bnpparibas.ism.projectmgt.domain.Document;
-
 import com.bnpparibas.ism.projectmgt.application.ProjectService;
 import com.bnpparibas.ism.projectmgt.domain.Project;
-import com.bnpparibas.ism.projectmgt.infrastructure.ProjectDAO;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.FollowUP;
 import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.ProcessDTO;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.ProcessManagerDAO;
-import com.bnpparibas.ism.projectmgt.infrastructure.processmgt.ProcessType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +31,13 @@ public class ProjectRessource {
     public Project obtain(@PathVariable("code") String code) {
         return this.projectService.obtain(code);
     }
+
+
+    /* Appel au service de l'application "PROCESS MANAGEMENT" pour avoir la liste des activités et des artifacts pour un projet en fonction des parametres suivants :
+        - le nom de la méthode : "MéthodeMapping (comme déclaré dans l'outil CLARITY")
+        - le type de "process (ACHTITECTURE ou QUALITY)
+        - le type de suivi (STANDARD, ALLEGE ou RENFORCEE)
+        - l'identifiant du projet concerné (pour de mettre à jour l'indicateur sur les artifacts (fait/nonFait)*/
 
     @RequestMapping(method = RequestMethod.GET, path = {"/project/{projectId}/process/methods/{name}/ptype/{ptype}/pfollow/{pfollow}"})
     public List<ProcessDTO> callProcess(@PathVariable("name") String name,

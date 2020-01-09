@@ -20,9 +20,7 @@ public class Tag {
     private String name;
 
 
-    //Un même Tag peut designer plusieurs documents
-    //Un document ne peut avoir qu'un seul Tag
-//    @OneToMany(mappedBy = "tag")
+    //Annotation permettant de récupérer le tag du document sans pouvoir accéder au document via le tag
     @Transient
     private Set<Document> documents;
 

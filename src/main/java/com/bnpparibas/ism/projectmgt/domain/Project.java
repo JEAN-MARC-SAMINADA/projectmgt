@@ -1,6 +1,5 @@
 package com.bnpparibas.ism.projectmgt.domain;
         import javax.persistence.*;
-        import java.util.List;
         import java.util.Optional;
         import java.util.Set;
 
@@ -34,14 +33,12 @@ public class Project {
 
     //Un projet est constitué de plusieurs documents
     //Un document ne peut appartenir qu'un seul projet
-    //@OneToMany(mappedBy = "project")
     @OneToMany
     @JoinColumn(name = "PROJECT_ID")
     private Set<Document> documents;
 
     //Un projet peut faire l'objet de plusieurs revues
     //Une revue ne concerne qu'un seul projet
-    //@OneToMany(mappedBy = "project")
     @OneToMany
     @JoinColumn(name = "PROJECT_ID")
     private Set<Review> reviews;
@@ -100,23 +97,27 @@ public class Project {
         this.reviews = reviews;
     }
 
-    public boolean hasArtifact(String tag) {
+
+    // verification de la présence d'un artifact(document ou revue) rattaché à un projet
+    public boolean hasArtifact(String tag) {    //tag de l'artifact
         if (getDocuments()!=null) {
-            Optional<Document> tagDocument = getDocuments().stream()
-                    .filter(d->tag.equals(d.getTag()))
-                    .findFirst();
+            Optional<Document> tagDocument = getDocuments().stream()    //un document peut ne pas avoir de tag (optional)
+                    .filter(d -> tag.equals(d.getTag().getName()))      //filtre sur la valeur du tag du document
+                    .findFirst();                                       //arret du traitement au premier tag vérifiant la condition d'égalitée
             if (tagDocument.isPresent()) {
                 return true;
             }
         }
         if (getReviews()!=null) {
-            Optional<Review> tagReview = getReviews().stream()
-                    .filter(d -> tag.equals(d.getReviewType().getName()))
-                    .findFirst();
+            Optional<Review> tagReview = getReviews().stream()            //une revue peut ne pas avoir de type (optional)
+                    .filter(d -> tag.equals(d.getReviewType().getName())) //filtre sur la valeur du type de revue
+                    .findFirst();                                         //arret du traitement au premier type de revue vérifiant la condition d'égalitée
             if (tagReview.isPresent()) {
                 return true;
             }
         }
-        return false;
+        return false;   //lorsque le projet ne dispose pas l'artifact recherché
     }
+
+
 }

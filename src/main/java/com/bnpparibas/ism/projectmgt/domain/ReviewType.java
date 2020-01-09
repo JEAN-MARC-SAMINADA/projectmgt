@@ -18,13 +18,9 @@ public class ReviewType {
     @Column(name = "REVIEWTYPE_NAME")
     private String name;
 
-
-    //Un même type de revue peut designer plusieurs revues
-    //Une revue ne peut avoir qu'un seul type
-//    @OneToMany(mappedBy = "reviewType")
+    //Annotation permettant de récupérer le type de la revue sans pouvoir accéder à la revue via son type
     @Transient
     private Set<Review> reviews;
-
 
     //Constructeurs
     public ReviewType() {

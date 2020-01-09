@@ -1,8 +1,5 @@
 package com.bnpparibas.ism.projectmgt.domain;
 import javax.persistence.*;
-import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name = "REVIEW")
 public class Review {
@@ -21,13 +18,9 @@ public class Review {
     //Un même type de review peut designer plusieurs revues
     @ManyToOne
     @JoinColumn(name = "REVIEWTYPE_ID")
-//    @Transient
     private ReviewType reviewType;
 
-    //Un projet peut faire l'objet de plusieurs revues
-    //Une revue ne concerne qu'un seul projet
-//    @ManyToOne
-//    @JoinColumn(name = "PROJECT_ID")
+    //annotation permettant de récupérer la liste des revue liées à un projet sans pouvoir accéder au projet via la revue
     @Transient
     private Project project;
 

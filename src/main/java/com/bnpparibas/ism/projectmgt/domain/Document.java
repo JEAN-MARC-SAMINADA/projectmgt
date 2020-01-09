@@ -22,19 +22,14 @@ public class Document {
     //Un même Tag peut designer plusieurs documents
     @ManyToOne
     @JoinColumn(name = "TAG_ID")
-//    @Transient
     private Tag tag;
 
-
-    //Un projet est constitué de plusieurs documents
-    //Un document ne peut appartenir qu'un seul projet
-//    @ManyToOne
-//    @JoinColumn(name = "PROJECT_ID")
+    //annotation permettant de récupérer la liste des documents rattachés à un projet sans pouvoir accéder au projet via le document
     @Transient
     private Project project;
 
 
-    //Constructeurs
+    //  Constructeurs
 
     public Document() {}
 

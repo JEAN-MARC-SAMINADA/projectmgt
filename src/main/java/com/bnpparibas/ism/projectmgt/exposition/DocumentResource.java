@@ -26,11 +26,6 @@ public class DocumentResource {
         return documentService.listAll();
     }
 
-    //Liste des documents d'un projet
-    @RequestMapping(method = RequestMethod.GET, path = {"/documentsListProject/{id}"})
-    public List<Document> documentsByProjectId(@PathVariable("id") Long id){
-        return this.documentService.findDocumentsByProjectId(id);
-    }
 }
 
 
